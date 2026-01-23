@@ -1,9 +1,9 @@
 import 'package:flutter_mobx_mvvm_task_manager/core/utils/supabase/supabase_auth.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/auth/repository/auth_repository.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/auth/login/repository/login_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AuthRepositoryImpl implements AuthRepository {
-  AuthRepositoryImpl(this._supabaseAuth);
+class LoginRepositoryImpl implements LoginRepository {
+  LoginRepositoryImpl(this._supabaseAuth);
 
   final SupabaseAuth _supabaseAuth;
 

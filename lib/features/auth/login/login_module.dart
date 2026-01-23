@@ -1,13 +1,13 @@
 import 'package:flutter_mobx_mvvm_task_manager/core/utils/supabase/supabase_auth.dart';
 import 'package:flutter_mobx_mvvm_task_manager/core/utils/supabase/supabase_functions.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/auth/repository/auth_repository.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/auth/repository/auth_repository_impl.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/auth/viewmodel/auth_view_model.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/auth/login/repository/login_repository.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/auth/login/repository/login_repository_impl.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/auth/login/viewmodel/login_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AuthModule {
+class LoginModule {
   static final List<SingleChildWidget> providers = [
     _supabaseClientProvider,
     _supabaseAuthProvider,
@@ -32,12 +32,12 @@ class AuthModule {
   );
 
   static final _authRepositoryProvider =
-  ProxyProvider<SupabaseAuth, AuthRepository>(
-    update: (_, supabaseAuth, _) => AuthRepositoryImpl(supabaseAuth),
+  ProxyProvider<SupabaseAuth, LoginRepository>(
+    update: (_, supabaseAuth, _) => LoginRepositoryImpl(supabaseAuth),
   );
 
   static final _authViewModelProvider =
-  ProxyProvider<AuthRepository, AuthViewModel>(
-    update: (_, repository, _) => AuthViewModel(repository),
+  ProxyProvider<LoginRepository, LoginViewModel>(
+    update: (_, repository, _) => LoginViewModel(repository),
   );
 }

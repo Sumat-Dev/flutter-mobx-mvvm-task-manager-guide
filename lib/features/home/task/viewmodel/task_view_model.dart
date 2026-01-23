@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx_mvvm_task_manager/core/base/model/base_view_model.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/task/model/task_model.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/task/model/task_status.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/task/repository/task_repository.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/home/task/model/task_model.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/home/task/model/task_status.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/home/task/repository/task_repository.dart';
 import 'package:mobx/mobx.dart';
 
 part 'task_view_model.g.dart';
 
-class TaskViewModel = _TaskViewModelBase with _$TaskViewModel;
+class TaskViewModel = TaskViewModelBase with _$TaskViewModel;
 
-abstract class _TaskViewModelBase extends BaseViewModel with Store {
-  _TaskViewModelBase(this._taskRepository);
+abstract class TaskViewModelBase extends BaseViewModel with Store {
+  TaskViewModelBase(this._taskRepository);
 
   final TaskRepository _taskRepository;
 

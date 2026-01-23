@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_mobx_mvvm_task_manager/core/base/view/base_view.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/auth/viewmodel/auth_view_model.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/auth/login/viewmodel/login_view_model.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<AuthViewModel>(
+    return BaseView<LoginViewModel>(
       onModelReady: (viewModel) {
         viewModel
           ..setContext(context)
           ..init();
       },
-      onPageBuilder: (BuildContext context, AuthViewModel viewModel) {
+      onPageBuilder: (BuildContext context, LoginViewModel viewModel) {
         final emailController = TextEditingController();
         final passwordController = TextEditingController();
 

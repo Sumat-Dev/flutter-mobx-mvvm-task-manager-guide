@@ -1,5 +1,5 @@
-import 'package:flutter_mobx_mvvm_task_manager/features/task/model/task_model.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/task/model/task_status.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/home/task/model/task_model.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/home/task/model/task_status.dart';
 
 abstract class TaskRepository {
   Future<List<TaskModel>> getTasks({TaskStatus? status});

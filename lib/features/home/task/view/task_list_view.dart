@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/task/model/task_status.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/task/view/task_detail_view.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/task/viewmodel/task_view_model.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/home/task/model/task_status.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/home/task/view/task_detail_view.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/home/task/viewmodel/task_view_model.dart';
 import 'package:provider/provider.dart';
 
 class TaskListView extends StatefulWidget {
@@ -93,7 +93,7 @@ class _TaskListViewState extends State<TaskListView> {
                       onTap: () async {
                         await Navigator.push(
                           context,
-                           MaterialPageRoute(
+                          MaterialPageRoute<void>(
                             builder: (context) => TaskDetailView(task: task),
                           ),
                         );
@@ -107,7 +107,7 @@ class _TaskListViewState extends State<TaskListView> {
         onPressed: () async {
           await Navigator.push(
             context,
-            MaterialPageRoute(
+            MaterialPageRoute<void>(
               builder: (context) => const TaskDetailView(),
             ),
           );

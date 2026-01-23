@@ -1,14 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_view_model.dart';
+part of 'login_view_model.dart';
 
 // **************************************************************************
 // StoreGenerator
 // **************************************************************************
 
-mixin _$AuthViewModel on _AuthViewModelBase, Store {
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
+
+mixin _$LoginViewModel on LoginViewModelBase, Store {
   late final _$isLoadingAtom = Atom(
-    name: '_AuthViewModelBase.isLoading',
+    name: 'LoginViewModelBase.isLoading',
     context: context,
   );
 
@@ -26,7 +28,7 @@ mixin _$AuthViewModel on _AuthViewModelBase, Store {
   }
 
   late final _$signInAsyncAction = AsyncAction(
-    '_AuthViewModelBase.signIn',
+    'LoginViewModelBase.signIn',
     context: context,
   );
 
@@ -36,7 +38,7 @@ mixin _$AuthViewModel on _AuthViewModelBase, Store {
   }
 
   late final _$signUpAsyncAction = AsyncAction(
-    '_AuthViewModelBase.signUp',
+    'LoginViewModelBase.signUp',
     context: context,
   );
 
@@ -46,7 +48,7 @@ mixin _$AuthViewModel on _AuthViewModelBase, Store {
   }
 
   late final _$signOutAsyncAction = AsyncAction(
-    '_AuthViewModelBase.signOut',
+    'LoginViewModelBase.signOut',
     context: context,
   );
 
@@ -58,7 +60,7 @@ mixin _$AuthViewModel on _AuthViewModelBase, Store {
   @override
   String toString() {
     return '''
-        isLoading: $isLoading
-           ''';
+isLoading: ${isLoading}
+    ''';
   }
 }

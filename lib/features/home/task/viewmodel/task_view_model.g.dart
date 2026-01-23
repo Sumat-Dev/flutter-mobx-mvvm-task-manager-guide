@@ -6,9 +6,11 @@ part of 'task_view_model.dart';
 // StoreGenerator
 // **************************************************************************
 
-mixin _$TaskViewModel on _TaskViewModelBase, Store {
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
+
+mixin _$TaskViewModel on TaskViewModelBase, Store {
   late final _$tasksAtom = Atom(
-    name: '_TaskViewModelBase.tasks',
+    name: 'TaskViewModelBase.tasks',
     context: context,
   );
 
@@ -26,7 +28,7 @@ mixin _$TaskViewModel on _TaskViewModelBase, Store {
   }
 
   late final _$isLoadingAtom = Atom(
-    name: '_TaskViewModelBase.isLoading',
+    name: 'TaskViewModelBase.isLoading',
     context: context,
   );
 
@@ -44,7 +46,7 @@ mixin _$TaskViewModel on _TaskViewModelBase, Store {
   }
 
   late final _$errorMessageAtom = Atom(
-    name: '_TaskViewModelBase.errorMessage',
+    name: 'TaskViewModelBase.errorMessage',
     context: context,
   );
 
@@ -62,7 +64,7 @@ mixin _$TaskViewModel on _TaskViewModelBase, Store {
   }
 
   late final _$getTasksAsyncAction = AsyncAction(
-    '_TaskViewModelBase.getTasks',
+    'TaskViewModelBase.getTasks',
     context: context,
   );
 
@@ -72,7 +74,7 @@ mixin _$TaskViewModel on _TaskViewModelBase, Store {
   }
 
   late final _$createTaskAsyncAction = AsyncAction(
-    '_TaskViewModelBase.createTask',
+    'TaskViewModelBase.createTask',
     context: context,
   );
 
@@ -88,7 +90,7 @@ mixin _$TaskViewModel on _TaskViewModelBase, Store {
   }
 
   late final _$updateTaskAsyncAction = AsyncAction(
-    '_TaskViewModelBase.updateTask',
+    'TaskViewModelBase.updateTask',
     context: context,
   );
 
@@ -110,7 +112,7 @@ mixin _$TaskViewModel on _TaskViewModelBase, Store {
   }
 
   late final _$deleteTaskAsyncAction = AsyncAction(
-    '_TaskViewModelBase.deleteTask',
+    'TaskViewModelBase.deleteTask',
     context: context,
   );
 
@@ -122,9 +124,9 @@ mixin _$TaskViewModel on _TaskViewModelBase, Store {
   @override
   String toString() {
     return '''
-      tasks: $tasks,
-      isLoading: $isLoading,
-      errorMessage: $errorMessage
-          ''';
+tasks: ${tasks},
+isLoading: ${isLoading},
+errorMessage: ${errorMessage}
+    ''';
   }
 }
