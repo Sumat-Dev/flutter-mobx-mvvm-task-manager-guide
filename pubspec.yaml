@@ -31,6 +31,7 @@ dev_dependencies:
   mobx_codegen: ^2.7.4
   flutter_lints: ^5.0.0
   json_serializable: ^6.11.0
+  very_good_analysis: ^10.0.0
 
 flutter:
 

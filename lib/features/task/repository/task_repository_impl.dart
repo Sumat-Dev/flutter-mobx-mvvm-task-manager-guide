@@ -4,13 +4,13 @@ import 'package:flutter_mobx_mvvm_task_manager/features/task/repository/task_rep
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TaskRepositoryImpl implements TaskRepository {
-  final SupabaseClient _supabaseClient;
-
   TaskRepositoryImpl(this._supabaseClient);
+
+  final SupabaseClient _supabaseClient;
 
   @override
   Future<List<TaskModel>> getTasks({TaskStatus? status}) async {
-    final Map<String, dynamic> queryParams = {};
+    final queryParams = <String, dynamic>{};
     if (status != null) {
       queryParams['status'] = status.name;
     }
@@ -22,8 +22,14 @@ class TaskRepositoryImpl implements TaskRepository {
       // headers: _authHeaders, // SDK adds this automatically
     );
 
-    final List<dynamic> data = response.data;
-    return data.map((json) => TaskModel.fromJson(json)).toList();
+    final data = response.data as List<dynamic>;
+    return data
+        .map(
+          (json) => TaskModel.fromJson(
+            json as Map<String, dynamic>,
+          ),
+        )
+        .toList();
   }
 
   @override
@@ -35,14 +41,17 @@ class TaskRepositoryImpl implements TaskRepository {
       // headers: _authHeaders,
     );
 
-    return TaskModel.fromJson(response.data);
+    return TaskModel.fromJson(response.data as Map<String, dynamic>);
   }
 
   @override
-  Future<TaskModel> createTask(String title, String? description, TaskStatus status) async {
+  Future<TaskModel> createTask(
+    String title,
+    String? description,
+    TaskStatus status,
+  ) async {
     final response = await _supabaseClient.functions.invoke(
       'tasks',
-      method: HttpMethod.post,
       body: {
         'title': title,
         'description': description,
@@ -51,12 +60,17 @@ class TaskRepositoryImpl implements TaskRepository {
       // headers: _authHeaders,
     );
 
-    return TaskModel.fromJson(response.data);
+    return TaskModel.fromJson(response.data as Map<String, dynamic>);
   }
 
   @override
-  Future<TaskModel> updateTask(String id, {String? title, String? description, TaskStatus? status}) async {
-    final Map<String, dynamic> body = {};
+  Future<TaskModel> updateTask(
+    String id, {
+    String? title,
+    String? description,
+    TaskStatus? status,
+  }) async {
+    final body = <String, dynamic>{};
     if (title != null) body['title'] = title;
     if (description != null) body['description'] = description;
     if (status != null) body['status'] = status.name;
@@ -69,7 +83,7 @@ class TaskRepositoryImpl implements TaskRepository {
       // headers: _authHeaders,
     );
 
-    return TaskModel.fromJson(response.data);
+    return TaskModel.fromJson(response.data as Map<String, dynamic>);
   }
 
   @override

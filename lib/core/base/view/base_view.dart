@@ -3,16 +3,16 @@ import 'package:flutter_mobx_mvvm_task_manager/core/base/model/base_view_model.d
 import 'package:provider/provider.dart';
 
 class BaseView<T extends BaseViewModel> extends StatefulWidget {
-  final Widget Function(BuildContext context, T viewModel) onPageBuilder;
-  final Function(T viewModel) onModelReady;
-  final VoidCallback? onDispose;
-
-  const BaseView({
-    super.key,
+   BaseView({
     required this.onPageBuilder,
     required this.onModelReady,
+    super.key,
     this.onDispose,
   });
+
+  final Widget Function(BuildContext context, T viewModel) onPageBuilder;
+  final Function(T viewModel) onModelReady;
+  late VoidCallback? onDispose;
 
   @override
   _BaseViewState<T> createState() => _BaseViewState<T>();
@@ -31,7 +31,9 @@ class _BaseViewState<T extends BaseViewModel> extends State<BaseView<T>> {
   @override
   void dispose() {
     super.dispose();
-    if (widget.onDispose != null) widget.onDispose!();
+    if (widget.onDispose != null) {
+      widget.onDispose!();
+    }
   }
 
   @override

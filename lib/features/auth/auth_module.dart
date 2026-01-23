@@ -16,23 +16,28 @@ class AuthModule {
     _authViewModelProvider,
   ];
 
-  static final _supabaseClientProvider = Provider<SupabaseClient>(
+  static final _supabaseClientProvider =
+  Provider<SupabaseClient>(
     create: (_) => Supabase.instance.client,
   );
 
-  static final _supabaseAuthProvider = ProxyProvider<SupabaseClient, SupabaseAuth>(
-    update: (_, client, __) => SupabaseAuth(client),
+  static final _supabaseAuthProvider =
+  ProxyProvider<SupabaseClient, SupabaseAuth>(
+    update: (_, client, _) => SupabaseAuth(client),
   );
 
-  static final _supabaseFunctionsProvider = ProxyProvider<SupabaseClient, SupabaseFunctions>(
-    update: (_, client, __) => SupabaseFunctions(client),
+  static final _supabaseFunctionsProvider =
+  ProxyProvider<SupabaseClient, SupabaseFunctions>(
+    update: (_, client, _) => SupabaseFunctions(client),
   );
 
-  static final _authRepositoryProvider = ProxyProvider<SupabaseAuth, AuthRepository>(
-    update: (_, supabaseAuth, __) => AuthRepositoryImpl(supabaseAuth),
+  static final _authRepositoryProvider =
+  ProxyProvider<SupabaseAuth, AuthRepository>(
+    update: (_, supabaseAuth, _) => AuthRepositoryImpl(supabaseAuth),
   );
 
-  static final _authViewModelProvider = ProxyProvider<AuthRepository, AuthViewModel>(
-    update: (_, repository, __) => AuthViewModel(repository),
+  static final _authViewModelProvider =
+  ProxyProvider<AuthRepository, AuthViewModel>(
+    update: (_, repository, _) => AuthViewModel(repository),
   );
 }

@@ -11,7 +11,7 @@ class TaskModule {
       create: (_) => TaskRepositoryImpl(Supabase.instance.client),
     ),
     ProxyProvider<TaskRepository, TaskViewModel>(
-      update: (_, repository, __) => TaskViewModel(repository),
+      update: (_, repository, _) => TaskViewModel(repository),
     ),
   ];
 }

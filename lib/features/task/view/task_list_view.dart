@@ -19,10 +19,10 @@ class _TaskListViewState extends State<TaskListView> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       _viewModel = Provider.of<TaskViewModel>(context, listen: false);
       _viewModel?.setContext(context);
-      _viewModel?.init();
+      await _viewModel?.init();
       setState(() {}); // Rebuild to allow Observer to see viewModel
     });
   }
@@ -35,15 +35,14 @@ class _TaskListViewState extends State<TaskListView> {
         actions: [
           PopupMenuButton<TaskStatus?>(
             icon: const Icon(Icons.filter_list),
-            onSelected: (status) {
+            onSelected: (status) async {
               setState(() {
                 _selectedStatus = status;
               });
-              _viewModel?.getTasks(status: status);
+              await _viewModel?.getTasks(status: status);
             },
             itemBuilder: (context) => [
               const PopupMenuItem(
-                value: null,
                 child: Text('All'),
               ),
               ...TaskStatus.values.map(
@@ -55,11 +54,11 @@ class _TaskListViewState extends State<TaskListView> {
             ],
           ),
           IconButton(
-            onPressed: () {
-              _viewModel?.getTasks(status: _selectedStatus);
+            onPressed: () async {
+              await _viewModel?.getTasks(status: _selectedStatus);
             },
             icon: const Icon(Icons.refresh),
-          )
+          ),
         ],
       ),
       body: _viewModel == null
@@ -71,7 +70,9 @@ class _TaskListViewState extends State<TaskListView> {
                 }
 
                 if (_viewModel!.errorMessage != null) {
-                  return Center(child: Text('Error: ${_viewModel!.errorMessage}'));
+                  return Center(
+                    child: Text('Error: ${_viewModel!.errorMessage}'),
+                  );
                 }
 
                 if (_viewModel!.tasks.isEmpty) {
@@ -89,10 +90,10 @@ class _TaskListViewState extends State<TaskListView> {
                         label: Text(task.status ?? ''),
                         backgroundColor: _getStatusColor(task.status),
                       ),
-                      onTap: () {
-                        Navigator.push(
+                      onTap: () async {
+                        await Navigator.push(
                           context,
-                          MaterialPageRoute(
+                           MaterialPageRoute(
                             builder: (context) => TaskDetailView(task: task),
                           ),
                         );
@@ -103,8 +104,8 @@ class _TaskListViewState extends State<TaskListView> {
               },
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const TaskDetailView(),

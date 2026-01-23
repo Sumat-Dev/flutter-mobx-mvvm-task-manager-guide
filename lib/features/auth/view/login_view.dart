@@ -10,16 +10,17 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<AuthViewModel>(
       onModelReady: (viewModel) {
-        viewModel.setContext(context);
-        viewModel.init();
+        viewModel
+          ..setContext(context)
+          ..init();
       },
       onPageBuilder: (BuildContext context, AuthViewModel viewModel) {
-        final TextEditingController emailController = TextEditingController();
-        final TextEditingController passwordController = TextEditingController();
+        final emailController = TextEditingController();
+        final passwordController = TextEditingController();
 
         return Scaffold(
           body: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(24),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,8 +57,11 @@ class LoginView extends StatelessWidget {
                       return const Center(child: CircularProgressIndicator());
                     }
                     return ElevatedButton(
-                      onPressed: () {
-                        viewModel.signIn(emailController.text, passwordController.text);
+                      onPressed: () async {
+                        await viewModel.signIn(
+                          emailController.text,
+                          passwordController.text,
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -65,14 +69,20 @@ class LoginView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: const Text('Login', style: TextStyle(fontSize: 18)),
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(fontSize: 18),
+                      ),
                     );
                   },
                 ),
                 const SizedBox(height: 16),
                 TextButton(
-                  onPressed: () {
-                    viewModel.signUp(emailController.text, passwordController.text);
+                  onPressed: () async {
+                    await viewModel.signUp(
+                      emailController.text,
+                      passwordController.text,
+                    );
                   },
                   child: const Text("Don't have an account? Sign Up"),
                 ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx_mvvm_task_manager/core/base/model/base_view_model.dart';
 import 'package:flutter_mobx_mvvm_task_manager/core/constants/navigation/navigation_constants.dart';
@@ -9,9 +11,9 @@ part 'auth_view_model.g.dart';
 class AuthViewModel = _AuthViewModelBase with _$AuthViewModel;
 
 abstract class _AuthViewModelBase extends BaseViewModel with Store {
-  final AuthRepository _authRepository;
-
   _AuthViewModelBase(this._authRepository);
+
+  final AuthRepository _authRepository;
 
   @observable
   bool isLoading = false;
@@ -26,11 +28,18 @@ abstract class _AuthViewModelBase extends BaseViewModel with Store {
   Future<void> signIn(String email, String password) async {
     isLoading = true;
     try {
-      final response = await _authRepository.signInWithPassword(email: email, password: password);
+      final response = await _authRepository.signInWithPassword(
+        email: email,
+        password: password,
+      );
       if (response.user != null) {
-        Navigator.of(viewModelContext).pushReplacementNamed(NavigationConstants.TASK_LIST);
+        unawaited(
+          Navigator.of(viewModelContext).pushReplacementNamed(
+            NavigationConstants.TASK_LIST,
+          ),
+        );
       }
-    } catch (e) {
+    } on Exception catch (_) {
       // Handle error
     } finally {
       isLoading = false;
@@ -41,9 +50,12 @@ abstract class _AuthViewModelBase extends BaseViewModel with Store {
   Future<void> signUp(String email, String password) async {
     isLoading = true;
     try {
-      await _authRepository.signUpWithPassword(email: email, password: password);
+      await _authRepository.signUpWithPassword(
+        email: email,
+        password: password,
+      );
       // Optional: Navigate to login or directly to task list after signup
-    } catch (e) {
+    } on Exception catch (_) {
       // Handle error
     } finally {
       isLoading = false;
@@ -55,7 +67,7 @@ abstract class _AuthViewModelBase extends BaseViewModel with Store {
     isLoading = true;
     try {
       await _authRepository.signOut();
-    } catch (e) {
+    } on Exception catch (_) {
       // Handle error
     } finally {
       isLoading = false;

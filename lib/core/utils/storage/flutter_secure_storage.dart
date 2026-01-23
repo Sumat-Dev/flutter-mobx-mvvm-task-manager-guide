@@ -1,9 +1,9 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorageManager {
-  static final SecureStorageManager _instance = SecureStorageManager._init();
   factory SecureStorageManager() => _instance;
   SecureStorageManager._init();
+  static final SecureStorageManager _instance = SecureStorageManager._init();
 
   final _storage = const FlutterSecureStorage();
 
@@ -12,7 +12,7 @@ class SecureStorageManager {
   }
 
   Future<String?> read({required String key}) async {
-    return await _storage.read(key: key);
+    return _storage.read(key: key);
   }
 
   Future<void> delete({required String key}) async {

@@ -6,9 +6,9 @@ import 'package:flutter_mobx_mvvm_task_manager/features/task/viewmodel/task_view
 import 'package:provider/provider.dart';
 
 class TaskDetailView extends StatefulWidget {
-  final TaskModel? task;
-
   const TaskDetailView({super.key, this.task});
+
+  final TaskModel? task;
 
   @override
   State<TaskDetailView> createState() => _TaskDetailViewState();
@@ -24,8 +24,12 @@ class _TaskDetailViewState extends State<TaskDetailView> {
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.task?.title ?? '');
-    _descriptionController = TextEditingController(text: widget.task?.description ?? '');
+    _titleController = TextEditingController(
+      text: widget.task?.title ?? '',
+    );
+    _descriptionController = TextEditingController(
+      text: widget.task?.description ?? '',
+    );
     _status = widget.task?.status != null
         ? TaskStatus.values.firstWhere(
             (e) => e.name == widget.task?.status,
@@ -67,10 +71,16 @@ class _TaskDetailViewState extends State<TaskDetailView> {
                             context: context,
                             builder: (context) => AlertDialog(
                               title: const Text('Delete Task'),
-                              content: const Text('Are you sure you want to delete this task?'),
+                              content: const Text(
+                                'Are you sure you '
+                                'want to delete this task?',
+                              ),
                               actions: [
                                 TextButton(
-                                  onPressed: () => Navigator.pop(context, false),
+                                  onPressed: () => Navigator.pop(
+                                    context,
+                                    false,
+                                  ),
                                   child: const Text('Cancel'),
                                 ),
                                 TextButton(
@@ -81,7 +91,7 @@ class _TaskDetailViewState extends State<TaskDetailView> {
                             ),
                           );
 
-                          if (confirm == true && widget.task!.id != null) {
+                          if (confirm ?? false) {
                             await _viewModel.deleteTask(widget.task!.id!);
                             if (context.mounted) Navigator.pop(context);
                           }
@@ -92,7 +102,7 @@ class _TaskDetailViewState extends State<TaskDetailView> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
@@ -101,7 +111,8 @@ class _TaskDetailViewState extends State<TaskDetailView> {
                 controller: _titleController,
                 decoration: const InputDecoration(labelText: 'Title'),
                 validator: (value) =>
-                    value == null || value.isEmpty ? 'Please enter a title' : null,
+                    value == null || value.isEmpty
+                        ? 'Please enter a title' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -111,10 +122,13 @@ class _TaskDetailViewState extends State<TaskDetailView> {
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<TaskStatus>(
-                value: _status,
+                initialValue: _status,
                 decoration: const InputDecoration(labelText: 'Status'),
                 items: TaskStatus.values.map((status) {
-                  return DropdownMenuItem(value: status, child: Text(status.name.toUpperCase()));
+                  return DropdownMenuItem(
+                    value: status,
+                    child: Text(status.name.toUpperCase()),
+                  );
                 }).toList(),
                 onChanged: (value) {
                   if (value != null) {

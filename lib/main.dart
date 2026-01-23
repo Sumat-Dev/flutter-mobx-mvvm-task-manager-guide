@@ -10,13 +10,16 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 Future<void> main() async {
   await _init();
   runApp(
-    MultiProvider(providers: [...AuthModule.providers, ...TaskModule.providers], child: MyApp()),
+    MultiProvider(
+      providers: [...AuthModule.providers, ...TaskModule.providers],
+      child: const MyApp(),
+    ),
   );
 }
 
 Future<void> _init() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
+  await dotenv.load();
   await EasyLocalization.ensureInitialized();
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,

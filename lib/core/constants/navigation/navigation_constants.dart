@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, document_ignores
+
 class NavigationConstants {
   static const DEFAULT = '/';
 

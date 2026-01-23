@@ -10,16 +10,16 @@ part 'task_view_model.g.dart';
 class TaskViewModel = _TaskViewModelBase with _$TaskViewModel;
 
 abstract class _TaskViewModelBase extends BaseViewModel with Store {
-  final TaskRepository _taskRepository;
-
   _TaskViewModelBase(this._taskRepository);
+
+  final TaskRepository _taskRepository;
 
   @override
   void setContext(BuildContext context) => viewModelContext = context;
 
   @override
-  void init() {
-    getTasks();
+  Future<void> init() async {
+    await getTasks();
   }
 
   @observable
@@ -38,7 +38,7 @@ abstract class _TaskViewModelBase extends BaseViewModel with Store {
     try {
       final taskList = await _taskRepository.getTasks(status: status);
       tasks = ObservableList.of(taskList);
-    } catch (e) {
+    } on Exception catch (e) {
       errorMessage = e.toString();
     } finally {
       isLoading = false;
@@ -46,12 +46,16 @@ abstract class _TaskViewModelBase extends BaseViewModel with Store {
   }
 
   @action
-  Future<void> createTask(String title, String? description, TaskStatus status) async {
+  Future<void> createTask(
+    String title,
+    String? description,
+    TaskStatus status,
+  ) async {
     isLoading = true;
     try {
       await _taskRepository.createTask(title, description, status);
       await getTasks();
-    } catch (e) {
+    } on Exception catch (e) {
       errorMessage = e.toString();
     } finally {
       isLoading = false;
@@ -67,9 +71,14 @@ abstract class _TaskViewModelBase extends BaseViewModel with Store {
   }) async {
     isLoading = true;
     try {
-      await _taskRepository.updateTask(id, title: title, description: description, status: status);
+      await _taskRepository.updateTask(
+        id,
+        title: title,
+        description: description,
+        status: status,
+      );
       await getTasks();
-    } catch (e) {
+    } on Exception catch (e) {
       errorMessage = e.toString();
     } finally {
       isLoading = false;
@@ -82,7 +91,7 @@ abstract class _TaskViewModelBase extends BaseViewModel with Store {
     try {
       await _taskRepository.deleteTask(id);
       await getTasks();
-    } catch (e) {
+    } on Exception catch (e) {
       errorMessage = e.toString();
     } finally {
       isLoading = false;
