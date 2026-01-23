@@ -3,7 +3,7 @@ import 'package:flutter_mobx_mvvm_task_manager/core/base/model/base_view_model.d
 import 'package:provider/provider.dart';
 
 class BaseView<T extends BaseViewModel> extends StatefulWidget {
-   BaseView({
+  BaseView({
     required this.onPageBuilder,
     required this.onModelReady,
     super.key,
@@ -32,7 +32,7 @@ class _BaseViewState<T extends BaseViewModel> extends State<BaseView<T>> {
   void dispose() {
     super.dispose();
     if (widget.onDispose != null) {
-      widget.onDispose!();
+      widget.onDispose!;
     }
   }
 
