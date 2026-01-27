@@ -11,9 +11,9 @@ part 'login_view_model.g.dart';
 class LoginViewModel = LoginViewModelBase with _$LoginViewModel;
 
 abstract class LoginViewModelBase extends BaseViewModel with Store {
-  LoginViewModelBase(this._authRepository);
+  LoginViewModelBase(this._loginRepository);
 
-  final LoginRepository _authRepository;
+  final LoginRepository _loginRepository;
 
   @observable
   bool isLoading = false;
@@ -28,7 +28,7 @@ abstract class LoginViewModelBase extends BaseViewModel with Store {
   Future<void> signIn(String email, String password) async {
     isLoading = true;
     try {
-      final response = await _authRepository.signInWithPassword(
+      final response = await _loginRepository.signInWithPassword(
         email: email,
         password: password,
       );
@@ -49,29 +49,22 @@ abstract class LoginViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> signUp(String email, String password) async {
-    isLoading = true;
-    try {
-      await _authRepository.signUpWithPassword(
-        email: email,
-        password: password,
-      );
-      // Optional: Navigate to login or directly to task list after signup
-    } on Exception catch (_) {
-      // Handle error
-    } finally {
-      isLoading = false;
-    }
+    // isLoading = true;
+    // try {
+    //   await _loginRepository.signUpWithPassword(
+    //     email: email,
+    //     password: password,
+    //   );
+    //   // Optional: Navigate to login or directly to task list after signup
+    // } on Exception catch (_) {
+    //   // Handle error
+    // } finally {
+    //   isLoading = false;
+    // }
   }
 
   @action
   Future<void> signOut() async {
-    isLoading = true;
-    try {
-      await _authRepository.signOut();
-    } on Exception catch (_) {
-      // Handle error
-    } finally {
-      isLoading = false;
-    }
+    //
   }
 }

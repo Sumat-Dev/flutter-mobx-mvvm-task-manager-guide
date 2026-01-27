@@ -16,9 +16,7 @@ class SupabaseAuth {
   Future<Map<String, String>> get headers async {
     final token = await accessToken;
     if (token != null) {
-      return {
-        'Authorization': 'Bearer $token',
-      };
+      return {'Authorization': 'Bearer $token'};
     } else {
       try {
         final response = await _client.auth.refreshSession();
@@ -31,7 +29,7 @@ class SupabaseAuth {
             'Authorization': 'Bearer ${response.session!.accessToken}',
           };
         }
-      } on Exception catch  (_) {}
+      } on Exception catch (_) {}
       return {};
     }
   }
