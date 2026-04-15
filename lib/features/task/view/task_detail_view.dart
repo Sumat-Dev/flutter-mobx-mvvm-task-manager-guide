@@ -160,7 +160,7 @@ class _TaskDetailViewState extends State<TaskDetailView> {
                   hintText: 'Add more details...',
                   alignLabelWithHint: true,
                   prefixIcon: const Padding(
-                    padding: EdgeInsets.only(bottom: 48.0),
+                    padding: EdgeInsets.only(bottom: 48),
                     child: Icon(Icons.description_outlined, color: Colors.grey),
                   ),
                   filled: true,
