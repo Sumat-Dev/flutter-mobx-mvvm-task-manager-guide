@@ -23,18 +23,24 @@ class _TaskListViewState extends State<TaskListView> {
       _viewModel = Provider.of<TaskViewModel>(context, listen: false);
       _viewModel?.setContext(context);
       await _viewModel?.init();
-      setState(() {}); // Rebuild to allow Observer to see viewModel
+      setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text('Task List'),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black87,
+        title: const Text('My Tasks', style: TextStyle(fontWeight: FontWeight.bold)),
+        centerTitle: true,
         actions: [
           PopupMenuButton<TaskStatus?>(
-            icon: const Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list_rounded),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             onSelected: (status) async {
               setState(() {
                 _selectedStatus = status;
@@ -57,8 +63,9 @@ class _TaskListViewState extends State<TaskListView> {
             onPressed: () async {
               await _viewModel?.getTasks(status: _selectedStatus);
             },
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh_rounded),
           ),
+          const SizedBox(width: 8),
         ],
       ),
       body: _viewModel == null
@@ -71,39 +78,141 @@ class _TaskListViewState extends State<TaskListView> {
 
                 if (_viewModel!.errorMessage != null) {
                   return Center(
-                    child: Text('Error: ${_viewModel!.errorMessage}'),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.error_outline_rounded, size: 48, color: Colors.redAccent),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Oops! Error: ${_viewModel!.errorMessage}',
+                          style: const TextStyle(color: Colors.redAccent, fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
                   );
                 }
 
                 if (_viewModel!.tasks.isEmpty) {
-                  return const Center(child: Text('No tasks found'));
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.inbox_rounded, size: 80, color: Colors.grey[300]),
+                        const SizedBox(height: 16),
+                        Text(
+                          'No tasks found\nEnjoy your free time!',
+                          style: TextStyle(color: Colors.grey[500], fontSize: 16, height: 1.5),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  );
                 }
 
                 return ListView.builder(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ).copyWith(bottom: 80),
                   itemCount: _viewModel!.tasks.length,
                   itemBuilder: (context, index) {
                     final task = _viewModel!.tasks[index];
-                    return ListTile(
-                      title: Text(task.title ?? 'No Title'),
-                      subtitle: Text(task.description ?? ''),
-                      trailing: Chip(
-                        label: Text(task.status ?? ''),
-                        backgroundColor: _getStatusColor(task.status),
+                    final statusColor = _getStatusColor(task.status) ?? Colors.grey;
+                    return Card(
+                      elevation: 0,
+                      color: Colors.white,
+                      margin: const EdgeInsets.only(bottom: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: BorderSide(color: Colors.grey.shade200),
                       ),
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (context) => TaskDetailView(task: task),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(20),
+                        onTap: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (context) => TaskDetailView(task: task),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: statusColor.withValues(alpha: 0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  _getStatusIcon(task.status),
+                                  color: statusColor,
+                                  size: 24,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      task.title ?? 'No Title',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                        color: Colors.black87,
+                                        letterSpacing: 0.2,
+                                      ),
+                                    ),
+                                    if (task.description != null &&
+                                        task.description!.isNotEmpty) ...[
+                                      const SizedBox(height: 6),
+                                      Text(
+                                        task.description!,
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 14,
+                                          height: 1.4,
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: statusColor.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(color: statusColor),
+                                ),
+                                child: Text(
+                                  task.status?.toUpperCase() ?? 'UNKNOWN',
+                                  style: TextStyle(
+                                    color: statusColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 10,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     );
                   },
                 );
               },
             ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           await Navigator.push(
             context,
@@ -112,16 +221,27 @@ class _TaskListViewState extends State<TaskListView> {
             ),
           );
         },
-        child: const Icon(Icons.add),
+        icon: const Icon(Icons.add_rounded),
+        label: const Text('New Task', style: TextStyle(fontWeight: FontWeight.bold)),
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );
   }
 
   Color? _getStatusColor(String? statusStr) {
-    if (statusStr == null) return null;
-    if (statusStr == TaskStatus.todo.name) return Colors.orange[100];
-    if (statusStr == TaskStatus.inProgress.name) return Colors.blue[100];
-    if (statusStr == TaskStatus.done.name) return Colors.green[100];
-    return Colors.grey[200];
+    if (statusStr == null) return Colors.grey;
+    if (statusStr == TaskStatus.todo.name) return Colors.orange;
+    if (statusStr == TaskStatus.inProgress.name) return Colors.blue;
+    if (statusStr == TaskStatus.done.name) return Colors.green;
+    return Colors.grey;
+  }
+
+  IconData _getStatusIcon(String? statusStr) {
+    if (statusStr == null) return Icons.help_outline_rounded;
+    if (statusStr == TaskStatus.todo.name) return Icons.assignment_outlined;
+    if (statusStr == TaskStatus.inProgress.name) return Icons.pending_actions_rounded;
+    if (statusStr == TaskStatus.done.name) return Icons.check_circle_outline_rounded;
+    return Icons.help_outline_rounded;
   }
 }
