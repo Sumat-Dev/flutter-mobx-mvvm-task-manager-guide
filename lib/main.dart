@@ -1,16 +1,17 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_mobx_mvvm_task_manager/app/app_router.dart';
-import 'package:flutter_mobx_mvvm_task_manager/core/utils/notifier/provider_list.dart';
+import 'package:flutter_mobx_mvvm_task_manager/core/constants/app/app_constants.dart';
+import 'package:flutter_mobx_mvvm_task_manager/core/utils/database/hive_database_manager.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/task/model/task_model.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/task/task_module.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   await _init();
   runApp(
     MultiProvider(
-      providers: [...ApplicationProvider.instance().dependItems],
+      providers: TaskModule.providers,
       child: const MyApp(),
     ),
   );
@@ -18,12 +19,9 @@ Future<void> main() async {
 
 Future<void> _init() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
-  await dotenv.load();
-  await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
-  );
+  await HiveDatabaseManagerImpl.instance.initialize();
+  Hive.registerAdapter(TaskModelAdapter());
+  await Hive.openBox<TaskModel>('tasks');
 }
 
 class MyApp extends StatelessWidget {
@@ -32,7 +30,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
+      locale: AppConstants.enLocale,
       onGenerateRoute: AppRoute.instance.generateRoute,
     );
   }

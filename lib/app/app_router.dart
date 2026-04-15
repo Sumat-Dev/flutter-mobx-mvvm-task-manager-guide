@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx_mvvm_task_manager/core/constants/navigation/navigation_constants.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/auth/login/view/login_view.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/home/task/view/task_detail_view.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/home/task/view/task_list_view.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/task/view/task_detail_view.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/task/view/task_list_view.dart';
 
 class AppRoute {
   AppRoute._init();
@@ -15,13 +13,7 @@ class AppRoute {
   Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case NavigationConstants.DEFAULT:
-        final session = Supabase.instance.client.auth.currentSession;
-        if (session != null) {
-          return _pageBuilder((_) => const TaskListView(), settings: settings);
-        }
-        return _pageBuilder((_) => const LoginView(), settings: settings);
-      case NavigationConstants.AUTH_LOGIN:
-        return _pageBuilder((_) => const LoginView(), settings: settings);
+        return _pageBuilder((_) => const TaskListView(), settings: settings);
       case NavigationConstants.TASK_LIST:
         return _pageBuilder((_) => const TaskListView(), settings: settings);
       case NavigationConstants.TASK_DETAIL:

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/home/task/model/task_model.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/home/task/model/task_status.dart';
-import 'package:flutter_mobx_mvvm_task_manager/features/home/task/viewmodel/task_view_model.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/task/model/task_model.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/task/model/task_status.dart';
+import 'package:flutter_mobx_mvvm_task_manager/features/task/viewmodel/task_view_model.dart';
 import 'package:provider/provider.dart';
 
 class TaskDetailView extends StatefulWidget {
@@ -111,8 +111,7 @@ class _TaskDetailViewState extends State<TaskDetailView> {
                 controller: _titleController,
                 decoration: const InputDecoration(labelText: 'Title'),
                 validator: (value) =>
-                    value == null || value.isEmpty
-                        ? 'Please enter a title' : null,
+                    value == null || value.isEmpty ? 'Please enter a title' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
